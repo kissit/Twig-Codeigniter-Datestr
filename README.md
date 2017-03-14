@@ -10,7 +10,8 @@ A few simple filters for Twig/Codeigniter to format a date as a human friendly s
 
 * Filter: timeday.  Calculate the difference between the filtered date/time and the current date/time and display as follows evaluating from top to bottom:
   * If diff >= 1 year, format the date as "Month day 'year".  Example: Jan 02 '15
-  * if diff >= 1 day, format the date as "Month day".  Example: Mar 19
+  * If diff >= 1 day, format the date as "Month day".  Example: Mar 19
+  * If the passed in day is not today, add "Yesterday @".  Example: Yesterday @ 3:58 PM
   * Otherwise, format the date as a time.  Example: 11:35 AM
 
 ### Requirements

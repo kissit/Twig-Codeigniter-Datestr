@@ -1,3 +1,4 @@
+<?php
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * Datestr.php
@@ -35,7 +36,6 @@
 */
 
 class Twig_Extensions_Extension_Datestr extends Twig_Extension {
-    
     public function getFilters() {
         return array(
             new Twig_SimpleFilter('minhrday', 'twig_minhrday_filter'),
@@ -48,12 +48,12 @@ class Twig_Extensions_Extension_Datestr extends Twig_Extension {
     }
 }
 
-global $datestr_current; 
-$datestr_current = date('Y-m-d H:i:s');
+global $current;
+$current = new DateTime(date('Y-m-d H:i:s'));
+
 function twig_minhrday_filter($value) {
-    global $datestr_current;
+    global $current;
     $difftime = new DateTime($value);
-    $current = new DateTime($datestr_current);
     $diff = $difftime->diff($current);
     if($diff->y > 0 || $diff->m > 0) {
         return $difftime->format("M 'y");
@@ -69,15 +69,18 @@ function twig_minhrday_filter($value) {
 }
 
 function twig_timeday_filter($value) {
-    global $datestr_current;
+    global $current;
     $difftime = new DateTime($value);
-    $current = new DateTime($datestr_current);
     $diff = $difftime->diff($current);
+    $value_day = $difftime->format('j');
+    $current_day = $current->format('j');
     if($diff->y > 0) {
         return $difftime->format("M d 'y");
     } elseif ($diff->m > 0 || $diff->d > 0) {
         return $difftime->format("M d");
+    } elseif($value_day != $current_day) {
+        return "Yesterday @ " . $difftime->format("g:i A");
     } else {
-        return $difftime->format("h:i A");
+        return $difftime->format("g:i A");
     }
 }
